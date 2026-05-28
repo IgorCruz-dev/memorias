@@ -2,26 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --radius: 1rem;
+    --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #FAFAF7;
+    color: #1A1A1A;
+    font-family: var(--font-nunito), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* === ANIMAÇÕES === */
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
+
+@keyframes glow-gold {
+  0%, 100% { box-shadow: 0 0 6px 0   rgba(245, 197, 24, 0.4); }
+  50%       { box-shadow: 0 0 18px 4px rgba(245, 197, 24, 0.7); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === UTILITÁRIOS CUSTOMIZADOS === */
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
+
+  .shadow-soft   { box-shadow: var(--shadow-soft); }
+  .shadow-medium { box-shadow: var(--shadow-medium); }
 }
+
+@layer components {
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0ea 25%, #e8e8e2 50%, #f0f0ea 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius);
+  }
+
+  .conquista-card {
+    animation: glow-gold 2.5s ease-in-out infinite;
+    border: 2px solid #F5C518 !important;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #F5C518;
+    color: #1A1A1A;
+    font-weight: 700;
+    border-radius: var(--radius);
+    padding: 0.75rem 1.5rem;
+    transition: background-color 150ms ease, transform 100ms ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary:hover  { background-color: #E0B014; transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+}
+
+/* Scrollbar suave */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: #F4F4EF; }
+::-webkit-scrollbar-thumb  { background: #D1D1CB; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #A8A8A0; }
